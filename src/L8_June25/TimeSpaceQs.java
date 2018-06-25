@@ -14,7 +14,7 @@ public class TimeSpaceQs {
 
 		// SOE(25);
 		// System.out.println(power(2, 10));
-		// System.out.println(polynomial(3, 7));
+		System.out.println(polynomial(3, 7));
 
 		System.out.println(countPalindromicSS("nitin"));
 	}
