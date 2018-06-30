@@ -1,4 +1,4 @@
-package L9_June28;
+package L9_June28.OOPS_Story1;
 
 /**
  * @author Garima Chhikara
