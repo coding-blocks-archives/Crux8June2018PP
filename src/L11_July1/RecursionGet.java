@@ -9,7 +9,8 @@ public class RecursionGet {
 		// System.out.println(getPermutations("abc"));
 		// System.out.println(getCoinToss(3));
 		// System.out.println(getBoardPath(0, 10));
-		System.out.println(getMazePath(0, 0, 2, 2));
+		// System.out.println(getMazePath(0, 0, 2, 2));
+		System.out.println(getMazePathDiag(0, 0, 2, 2));
 	}
 
 	public static ArrayList<String> getSS(String str) {
@@ -214,6 +215,43 @@ public class RecursionGet {
 
 		for (String rrs : rrv) {
 			mr.add("V" + rrs);
+		}
+
+		return mr;
+
+	}
+
+	public static ArrayList<String> getMazePathDiag(int cr, int cc, int er, int ec) {
+
+		if (cr == er && cc == ec) {
+			ArrayList<String> br = new ArrayList<>();
+			br.add("");
+			return br;
+		}
+
+		if (cr > er || cc > ec) {
+			ArrayList<String> br = new ArrayList<>();
+			return br;
+		}
+
+		ArrayList<String> mr = new ArrayList<>();
+
+		ArrayList<String> rrh = getMazePathDiag(cr, cc + 1, er, ec);
+
+		for (String rrs : rrh) {
+			mr.add("H" + rrs);
+		}
+
+		ArrayList<String> rrv = getMazePathDiag(cr + 1, cc, er, ec);
+
+		for (String rrs : rrv) {
+			mr.add("V" + rrs);
+		}
+
+		ArrayList<String> rrd = getMazePathDiag(cr + 1, cc + 1, er, ec);
+
+		for (String rrs : rrd) {
+			mr.add("D" + rrs);
 		}
 
 		return mr;
