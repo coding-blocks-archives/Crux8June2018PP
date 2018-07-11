@@ -14,8 +14,11 @@ public class RecursionPrint {
 		// printSS("abc", "");
 		// printKPC("146", "");
 		// System.out.println(printPermutation("abc", ""));
-		lexicoCounting(0, 1000);
-		System.out.println(printBoardPath(0, 10, ""));
+		// lexicoCounting(0, 1000);
+		// System.out.println(printBoardPath(0, 10, ""));
+		// System.out.println(printMazePathDMM(0, 0, 2, 2, ""));
+		// System.out.println(permutationNoDuplicates("abca", ""));
+		System.out.println(permutationLexicoLarger("bcad", "", false));
 
 	}
 
@@ -113,6 +116,30 @@ public class RecursionPrint {
 
 	public static int permutationNoDuplicates(String ques, String ans) {
 
+		if (ques.length() == 0) {
+			System.out.println(ans);
+			return 1;
+		}
+
+		int count = 0;
+
+		boolean[] processed = new boolean[256];
+
+		for (int i = 0; i < ques.length(); i++) {
+
+			char ch = ques.charAt(i);
+
+			if (processed[ch] == true) {
+				continue;
+			}
+
+			String roq = ques.substring(0, i) + ques.substring(i + 1);
+			count += permutationNoDuplicates(roq, ans + ch);
+			processed[ch] = true;
+		}
+
+		return count;
+
 	}
 
 	public static int printCoinToss(int n, String ans) {
@@ -149,6 +176,97 @@ public class RecursionPrint {
 	}
 
 	public static int printMazePath(int cr, int cc, int er, int ec, String ans) {
+
+		if (cr == er && cc == ec) {
+			System.out.println(ans);
+			return 1;
+		}
+
+		if (cr > er || cc > ec) {
+			return 0;
+		}
+
+		int hc = printMazePath(cr, cc + 1, er, ec, ans + "H");
+		int vc = printMazePath(cr + 1, cc, er, ec, ans + "V");
+
+		return hc + vc;
+	}
+
+	public static int printMazePathD(int cr, int cc, int er, int ec, String ans) {
+
+		if (cr == er && cc == ec) {
+			System.out.println(ans);
+			return 1;
+		}
+
+		if (cr > er || cc > ec) {
+			return 0;
+		}
+
+		int hc = printMazePathD(cr, cc + 1, er, ec, ans + "H");
+		int vc = printMazePathD(cr + 1, cc, er, ec, ans + "V");
+		int dc = printMazePathD(cr + 1, cc + 1, er, ec, ans + "D");
+
+		return hc + vc + dc;
+	}
+
+	public static int printMazePathDMM(int cr, int cc, int er, int ec, String ans) {
+
+		if (cr == er && cc == ec) {
+			System.out.println(ans);
+			return 1;
+		}
+
+		if (cr > er || cc > ec) {
+			return 0;
+		}
+
+		int count = 0;
+
+		for (int i = 1; i <= ec; i++) {
+			count += printMazePathDMM(cr, cc + i, er, ec, ans + "H" + i);
+		}
+
+		for (int i = 1; i <= er; i++) {
+			count += printMazePathDMM(cr + i, cc, er, ec, ans + "V" + i);
+		}
+
+		for (int i = 1; i <= er && i <= ec; i++) {
+			count += printMazePathDMM(cr + i, cc + i, er, ec, ans + "D" + i);
+		}
+
+		return count;
+	}
+
+	public static int permutationLexicoLarger(String ques, String ans, boolean isLarger) {
+
+		if (ques.length() == 0) {
+			System.out.println(ans);
+			return 1;
+		}
+
+		int count = 0;
+
+		for (int i = 0; i < ques.length(); i++) {
+
+			char ch = ques.charAt(i);
+			String roq = ques.substring(0, i) + ques.substring(i + 1);
+
+			if (isLarger) {
+				count += permutationLexicoLarger(roq, ans + ch, true);
+			} else {
+
+				if (ch > ques.charAt(0)) {
+					count += permutationLexicoLarger(roq, ans + ch, true);
+				} else if (ch < ques.charAt(0)) {
+					// no call
+				} else {
+					count += permutationLexicoLarger(roq, ans + ch, false);
+				}
+			}
+		}
+
+		return count;
 
 	}
 
