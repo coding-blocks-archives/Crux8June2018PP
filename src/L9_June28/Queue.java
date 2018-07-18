@@ -8,8 +8,8 @@ package L9_June28;
 
 public class Queue {
 
-	private int[] data;
-	private int front;
+	protected int[] data;
+	protected int front;
 	private int size;
 
 	public Queue() {
