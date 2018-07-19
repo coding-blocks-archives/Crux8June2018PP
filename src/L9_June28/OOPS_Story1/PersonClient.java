@@ -8,7 +8,7 @@ package L9_June28.OOPS_Story1;
 
 public class PersonClient {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 
 		Person p = new Person();
 		// System.out.println(p.name);
@@ -28,12 +28,24 @@ public class PersonClient {
 		// p1.introduceYourself();
 		// p1.sayHi("Aman");
 
-		Person p3 = new Person("Rohit", 10);
+		try {
+			System.out.println("hiii");
+			Person p3 = new Person("Rohit", -21);
+			System.out.println(p3);
+			return;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println(e);
+			return;
 
-		System.out.println(p3);
-		
-		
-		System.out.println("hello");
+		} catch (Exception e) {
+			System.out.println("in  null");
+			System.out.println(e);
+			return;
+
+		} finally {
+			System.out.println("in finally");
+		}
+		// System.out.println("hello");
 
 	}
 

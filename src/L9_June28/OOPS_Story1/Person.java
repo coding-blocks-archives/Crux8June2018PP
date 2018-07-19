@@ -15,10 +15,10 @@ public class Person {
 
 	}
 
-	public Person(String name, int age) throws Exception {
+	public Person(String name, int age) throws ArrayIndexOutOfBoundsException {
 
 		if (age < 0) {
-			 throw new Exception("Invalid Age.") ;
+			 throw new ArrayIndexOutOfBoundsException("Invalid Age.") ;
 			// System.out.println("invalid age");
 			// return ;
 		}
