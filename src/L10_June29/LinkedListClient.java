@@ -17,7 +17,10 @@ public class LinkedListClient {
 		// System.out.println(list.removeLast());
 		list.display();
 		list.addFirst(100);
-		// list.addFirst(200);
+		list.addFirst(200);
+		list.addFirst(300);
+		list.addFirst(400);
+		list.addFirst(500);
 		list.display();
 
 		list.reverseDataIteratively();
@@ -33,7 +36,16 @@ public class LinkedListClient {
 		list.fold();
 		list.display();
 
-		System.out.println(list.mid());
+		// System.out.println(list.mid());
+		//
+		// System.out.println(list.kthFromLast(4));
+
+		list.kReverse(3);
+		list.display();
+
+		list.mergeSort();
+		list.display();
+
 	}
 
 }
