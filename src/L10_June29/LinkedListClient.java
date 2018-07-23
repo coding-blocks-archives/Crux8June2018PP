@@ -46,6 +46,10 @@ public class LinkedListClient {
 		list.mergeSort();
 		list.display();
 
+		list.createDummyList();
+		list.cycleDetectRemove();
+		list.display();
+
 	}
 
 }

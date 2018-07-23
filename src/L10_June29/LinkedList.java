@@ -11,6 +11,10 @@ public class LinkedList {
 	private Node tail;
 	private int size;
 
+	public int size() {
+		return this.size;
+	}
+
 	public int getFirst() throws Exception {
 
 		if (this.size == 0) {
@@ -510,6 +514,70 @@ public class LinkedList {
 		this.head = merged.head;
 		this.tail = merged.tail;
 		this.size = merged.size;
+
+	}
+
+	public void createDummyList() {
+
+		Node n1 = new Node();
+		n1.data = 10;
+		Node n2 = new Node();
+		n2.data = 20;
+		Node n3 = new Node();
+		n3.data = 30;
+		Node n4 = new Node();
+		n4.data = 40;
+		Node n5 = new Node();
+		n5.data = 50;
+		Node n6 = new Node();
+		n6.data = 60;
+		Node n7 = new Node();
+		n7.data = 70;
+
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		n6.next = n7;
+		n7.next = n4;
+
+		this.head = n1;
+		this.tail = n7;
+		this.size = 7;
+	}
+
+	public void cycleDetectRemove() {
+
+		Node slow = this.head;
+		Node fast = this.head;
+
+		while (fast != null && fast.next != null) {
+
+			slow = slow.next;
+			fast = fast.next.next;
+
+			if (slow == fast) {
+				break;
+			}
+		}
+
+		// remove the cycle
+		if (slow == fast) {
+
+			Node startLL = this.head;
+			Node loopLL = slow;
+
+			while (startLL.next != loopLL.next) {
+				startLL = startLL.next;
+				loopLL = loopLL.next;
+			}
+
+			loopLL.next = null;
+			this.tail = loopLL;
+		} else {
+			System.out.println("No Cycle.");
+		}
 
 	}
 

@@ -36,7 +36,6 @@ public class PersonClient {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println(e);
 			return;
-
 		} catch (Exception e) {
 			System.out.println("in  null");
 			System.out.println(e);

@@ -1,7 +1,10 @@
 package L17_July20;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
+
+import javax.swing.JLabel;
 
 /**
  * @author Garima Chhikara
@@ -191,6 +194,225 @@ public class GenericTree {
 			left++;
 			right--;
 		}
+	}
+
+	public void preorder() {
+		preorder(this.root);
+		System.out.println();
+	}
+
+	private void preorder(Node node) {
+
+		System.out.print(node.data + " ");
+
+		for (Node child : node.children) {
+			preorder(child);
+		}
+	}
+
+	public void postorder() {
+		postorder(this.root);
+		System.out.println();
+	}
+
+	private void postorder(Node node) {
+
+		for (Node child : node.children) {
+			postorder(child);
+		}
+
+		System.out.print(node.data + " ");
+
+	}
+
+	public void levelorder() {
+
+		LinkedList<Node> queue = new LinkedList<>();
+		// put the root node in queue
+		queue.addLast(this.root);
+
+		while (!queue.isEmpty()) {
+
+			// remove the node
+			Node rn = queue.removeFirst();
+
+			// syso
+			System.out.print(rn.data + " ");
+
+			// put the children at back
+			for (Node child : rn.children) {
+				queue.addLast(child);
+			}
+
+		}
+		System.out.println();
+
+	}
+
+	public void levelorderlw() {
+		LinkedList<Node> queue = new LinkedList<>();
+		LinkedList<Node> helper = new LinkedList<>();
+
+		// put the root node in queue
+		queue.addLast(this.root);
+
+		while (!queue.isEmpty()) {
+
+			// remove the node
+			Node rn = queue.removeFirst();
+
+			// syso
+			System.out.print(rn.data + " ");
+
+			// put the children at back
+			for (Node child : rn.children) {
+				helper.addLast(child);
+			}
+
+			if (queue.isEmpty()) {
+				System.out.println();
+				queue = helper;
+				helper = new LinkedList<>();
+			}
+		}
+		System.out.println();
+
+	}
+
+	public void levelorderzz() {
+
+		LinkedList<Node> queue = new LinkedList<>();
+		LinkedList<Node> stack = new LinkedList<>();
+
+		int count = 0;
+
+		// put the root node in queue
+		queue.addLast(this.root);
+
+		while (!queue.isEmpty()) {
+
+			// remove the node
+			Node rn = queue.removeFirst();
+
+			// syso
+			System.out.print(rn.data + " ");
+
+			// put the children at back
+			if (count % 2 == 0) {
+				for (Node child : rn.children) {
+					stack.addFirst(child);
+				}
+			} else {
+				for (int i = rn.children.size() - 1; i >= 0; i--) {
+					stack.addFirst(rn.children.get(i));
+				}
+
+			}
+
+			if (queue.isEmpty()) {
+				System.out.println();
+				queue = stack;
+				stack = new LinkedList<>();
+				count++;
+			}
+		}
+		System.out.println();
+
+	}
+
+	public void levelOrderR() {
+
+		int s = this.height();
+		for (int i = 0; i <= s; i++) {
+			printAtLevel(i);
+			System.out.println();
+		}
+	}
+
+	public void printAtLevel(int level) {
+		printAtLevel(this.root, level, 0);
+	}
+
+	private void printAtLevel(Node node, int level, int count) {
+
+		if (level == count) {
+			System.out.print(node.data + " ");
+			return;
+		}
+
+		for (Node child : node.children) {
+			printAtLevel(child, level, count + 1);
+		}
+
+	}
+
+	private class HeapMover {
+		int size;
+		int max = Integer.MIN_VALUE;
+		int ht;
+		boolean find;
+
+		Node pred;
+		Node succ;
+
+		Node jl;
+
+	}
+
+	public void multiSolver(int item) {
+
+		HeapMover mover = new HeapMover();
+		multiSolver(this.root, mover, 0, item);
+
+		System.out.println("Max : " + mover.max);
+		System.out.println("Find : " + mover.find);
+		System.out.println("Ht : " + mover.ht);
+		System.out.println("Size : " + mover.size);
+		System.out.println("Pred : " + (mover.pred == null ? null : mover.pred.data));
+		System.out.println("Succ : " + (mover.succ == null ? null : mover.succ.data));
+		System.out.println("JL : " + (mover.jl == null ? null : mover.jl.data));
+	}
+
+	private void multiSolver(Node node, HeapMover mover, int count, int item) {
+
+		mover.size++;
+
+		// height
+		if (count > mover.ht) {
+			mover.ht = count;
+		}
+
+		// succ
+		if (mover.find == true && mover.succ == null) {
+			mover.succ = node;
+		}
+
+		// find
+		if (node.data == item) {
+			mover.find = true;
+		}
+
+		// pred
+		if (mover.find == false) {
+			mover.pred = node;
+		}
+
+		// max
+		if (node.data > mover.max) {
+			mover.max = node.data;
+		}
+
+		// jl
+		if (node.data > item) {
+
+			if (mover.jl == null || node.data < mover.jl.data)
+				mover.jl = node;
+		}
+
+		for (Node child : node.children) {
+			multiSolver(child, mover, count + 1, item);
+		}
+
 	}
 
 }
