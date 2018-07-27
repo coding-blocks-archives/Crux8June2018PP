@@ -26,16 +26,17 @@ public class GTClient {
 		// gt.display();
 
 		gt.preorder();
-		gt.postorder();
-		gt.levelorder();
-
-		gt.levelorderlw();
-
-		gt.levelorderzz();
-
-		gt.levelOrderR();
-
-		gt.multiSolver(70);
+		gt.preOrderI();
+		// gt.postorder();
+		// gt.levelorder();
+		//
+		// gt.levelorderlw();
+		//
+		// gt.levelorderzz();
+		//
+		// gt.levelOrderR();
+		//
+		// gt.multiSolver(70);
 
 	}
 

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import javax.swing.JLabel;
-
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -411,6 +409,49 @@ public class GenericTree {
 
 		for (Node child : node.children) {
 			multiSolver(child, mover, count + 1, item);
+		}
+
+	}
+
+	private class OrderPair {
+		Node node;
+		boolean selfDone;
+		boolean childDone;
+	}
+
+	public void preOrderI() {
+		preOrderI(this.root);
+	}
+
+	private void preOrderI(Node node) {
+
+		LinkedList<OrderPair> stack = new LinkedList<>();
+
+		OrderPair sp = new OrderPair();
+		sp.node = this.root;
+
+		stack.addFirst(sp);
+
+		while (!stack.isEmpty()) {
+
+			OrderPair tp = stack.getFirst();
+
+			if (tp.selfDone == false) {
+				System.out.print(tp.node.data + " ");
+				tp.selfDone = true;
+			} else if (tp.childDone == false) {
+
+				for (int i = tp.node.children.size() - 1; i >= 0; i--) {
+					OrderPair np = new OrderPair();
+					np.node = tp.node.children.get(i);
+					stack.addFirst(np);
+				}
+
+				tp.childDone = true;
+			} else {
+				stack.removeFirst();
+			}
+
 		}
 
 	}
