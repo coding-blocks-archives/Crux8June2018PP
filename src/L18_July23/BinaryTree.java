@@ -72,7 +72,7 @@ public class BinaryTree {
 		if (plo > phi || ilo > ihi) {
 			return null;
 		}
-		
+
 		Node nn = new Node();
 		nn.data = pre[plo];
 
@@ -359,6 +359,61 @@ public class BinaryTree {
 
 		}
 		System.out.println();
+
+	}
+
+	private class BSTPair {
+
+		Node largestBSTRootNode;
+		int size = 0;
+		boolean isBST = true;
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+
+	}
+
+	public void isBST() {
+		BSTPair res = isBST(this.root);
+
+		System.out.println(res.largestBSTRootNode.data);
+		System.out.println(res.size);
+	}
+
+	private BSTPair isBST(Node node) {
+
+		if (node == null) {
+			return new BSTPair();
+		}
+
+		BSTPair lp = isBST(node.left);
+		BSTPair rp = isBST(node.right);
+
+		BSTPair sp = new BSTPair();
+
+		sp.max = Math.max(node.data, Math.max(lp.max, rp.max));
+		sp.min = Math.min(node.data, Math.min(lp.min, rp.min));
+
+		if (lp.isBST && rp.isBST && node.data > lp.max && node.data < rp.min) {
+
+			sp.isBST = true;
+			sp.size = lp.size + rp.size + 1;
+			sp.largestBSTRootNode = node;
+
+		} else {
+
+			if (lp.size > rp.size) {
+				sp.isBST = false;
+				sp.size = lp.size;
+				sp.largestBSTRootNode = lp.largestBSTRootNode;
+			} else {
+				sp.isBST = false;
+				sp.size = rp.size;
+				sp.largestBSTRootNode = rp.largestBSTRootNode;
+			}
+
+		}
+
+		return sp;
 
 	}
 
