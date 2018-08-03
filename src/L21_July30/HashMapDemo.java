@@ -57,6 +57,10 @@ public class HashMapDemo {
 		int[] a2 = { 100, 200, 10, 10, 20, 50, 20 };
 
 		System.out.println(intersection(a1, a2));
+		
+		int[] arr = {2, 12, 9, 16, 10, 5, 3, 20, 25, 11, 1, 8, 6} ;
+		
+		System.out.println(longestSequence(arr));
 	}
 
 	public static char maxFrequencyChar(String str) {
@@ -138,6 +142,51 @@ public class HashMapDemo {
 	public static ArrayList<Integer> longestSequence(int[] arr) {
 
 		ArrayList<Integer> ans = new ArrayList<>();
+
+		HashMap<Integer, Boolean> map = new HashMap<>();
+
+		for (int i = 0; i < arr.length; i++) {
+
+			int val = arr[i];
+
+			int nm1 = val - 1;
+
+			if (map.containsKey(nm1)) {
+				map.put(val, false);
+			} else {
+				map.put(val, true);
+			}
+
+			int np1 = val + 1;
+			if (map.containsKey(np1)) {
+				map.put(np1, false);
+			}
+		}
+
+		int maxlength = 0;
+		int sequenceStarting = 0;
+
+		for (Integer key : map.keySet()) {
+
+			if (map.get(key) == true) {
+
+				int count = 0;
+				while (map.containsKey(key + count)) {
+					count++;
+				}
+
+				if (count > maxlength) {
+					maxlength = count;
+					sequenceStarting = key;
+				}
+
+			}
+
+		}
+
+		for (int i = 0; i < maxlength; i++) {
+			ans.add(sequenceStarting + i);
+		}
 
 		return ans;
 

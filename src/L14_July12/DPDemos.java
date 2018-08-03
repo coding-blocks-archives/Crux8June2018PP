@@ -33,9 +33,35 @@ public class DPDemos {
 		// System.out.println(LCSTD(s1, s2, new int[s1.length() + 1][s2.length() + 1]));
 		// System.out.println(LCSBU(s1, s2));
 
-		System.out.println(EditDistance(s1, s2));
-		System.out.println(EditDistanceBU(s1, s2));
+		// System.out.println(EditDistance(s1, s2));
+		// System.out.println(EditDistanceBU(s1, s2));
 
+		// int[] arr = new int[1000];
+		//
+		// for (int i = 0; i < arr.length; i++) {
+		// arr[i] = i + 1;
+		// }
+		// int[] arr = { 2, 3, 5, 1, 4 };
+
+		// System.out.println(MCMTD(arr, 0, arr.length - 1, new
+		// int[arr.length][arr.length]));
+		// System.out.println(MCMBU(arr));
+
+		// System.out.println(Wine(arr, 0, arr.length - 1, 1));
+		// System.out.println(WineTD(arr, 0, arr.length - 1, new
+		// int[arr.length][arr.length]));
+		// System.out.println(WineBU(arr));
+
+		int[] weight = { 1, 3, 4, 5 };
+		int[] price = { 1, 4, 5, 7 };
+
+		int cap = 7;
+		// System.out.println(KnapsackTD(weight, price, 0, cap, new
+		// int[weight.length][cap + 1]));
+		// System.out.println(KnapsackBU(weight, price, cap));
+
+		int[] arr = { 40, 60, 20 };
+		System.out.println(Mixtures(arr, 0, arr.length - 1));
 		long end = System.currentTimeMillis();
 
 		System.out.println("Time : " + (end - start));
@@ -421,8 +447,234 @@ public class DPDemos {
 
 	}
 
-	public static int MCM(int[] arr, int si, int ei) {
+	public static int MCMTD(int[] arr, int si, int ei, int[][] strg) {
 
+		if (si + 1 == ei) {
+			return 0;
+		}
+
+		if (strg[si][ei] != 0) {
+			return strg[si][ei];
+		}
+
+		int min = Integer.MAX_VALUE;
+
+		for (int k = si + 1; k <= ei - 1; k++) {
+
+			int fc = MCMTD(arr, si, k, strg);
+			int sc = MCMTD(arr, k, ei, strg);
+			int sw = arr[si] * arr[k] * arr[ei];
+
+			int ans = fc + sc + sw;
+
+			if (ans < min) {
+				min = ans;
+			}
+		}
+
+		strg[si][ei] = min;
+		return min;
+
+	}
+
+	public static int MCMBU(int[] arr) {
+
+		int n = arr.length;
+		int[][] strg = new int[n][n];
+
+		for (int slide = 1; slide <= n - 1; slide++) {
+
+			for (int si = 0; si <= n - slide - 1; si++) {
+
+				int ei = si + slide;
+
+				if (si + 1 == ei) {
+					strg[si][ei] = 0;
+				} else {
+
+					int min = Integer.MAX_VALUE;
+
+					for (int k = si + 1; k <= ei - 1; k++) {
+
+						int fc = strg[si][k];
+						int sc = strg[k][ei];
+						int sw = arr[si] * arr[k] * arr[ei];
+
+						int ans = fc + sc + sw;
+
+						if (ans < min) {
+							min = ans;
+						}
+					}
+
+					strg[si][ei] = min;
+				}
+
+			}
+		}
+
+		return strg[0][n - 1];
+
+	}
+
+	public static int Wine(int[] arr, int si, int ei, int yr) {
+
+		if (si == ei) {
+			return arr[si] * yr;
+		}
+
+		int sc = Wine(arr, si + 1, ei, yr + 1) + arr[si] * yr;
+		int lc = Wine(arr, si, ei - 1, yr + 1) + arr[ei] * yr;
+
+		int ans = Math.max(sc, lc);
+
+		return ans;
+
+	}
+
+	public static int WineTD(int[] arr, int si, int ei, int[][] strg) {
+
+		int yr = arr.length - (ei - si + 1) + 1;
+
+		if (si == ei) {
+			return arr[si] * yr;
+		}
+
+		if (strg[si][ei] != 0) {
+			return strg[si][ei];
+		}
+
+		int sc = WineTD(arr, si + 1, ei, strg) + arr[si] * yr;
+		int lc = WineTD(arr, si, ei - 1, strg) + arr[ei] * yr;
+
+		int ans = Math.max(sc, lc);
+
+		strg[si][ei] = ans;
+		return ans;
+
+	}
+
+	public static int WineBU(int[] arr) {
+
+		int n = arr.length;
+
+		int[][] strg = new int[n][n];
+
+		for (int slide = 0; slide <= n - 1; slide++) {
+
+			for (int si = 0; si <= n - slide - 1; si++) {
+
+				int ei = si + slide;
+				int yr = n - (ei - si + 1) + 1;
+
+				if (si == ei) {
+					strg[si][ei] = arr[si] * yr;
+				} else {
+
+					int sc = strg[si + 1][ei] + arr[si] * yr;
+					int lc = strg[si][ei - 1] + arr[ei] * yr;
+
+					int ans = Math.max(sc, lc);
+
+					strg[si][ei] = ans;
+
+				}
+
+			}
+		}
+
+		return strg[0][n - 1];
+
+	}
+
+	public static int KnapsackTD(int[] weight, int[] prices, int vidx, int cap, int[][] strg) {
+
+		if (vidx == weight.length) {
+			return 0;
+		}
+
+		if (strg[vidx][cap] != 0) {
+			return strg[vidx][cap];
+		}
+
+		// exclude
+		int exclude = KnapsackTD(weight, prices, vidx + 1, cap, strg);
+
+		// include
+		int include = 0;
+
+		if (weight[vidx] <= cap)
+			include = KnapsackTD(weight, prices, vidx + 1, cap - weight[vidx], strg) + prices[vidx];
+
+		int ans = Math.max(exclude, include);
+
+		strg[vidx][cap] = ans;
+		return ans;
+
+	}
+
+	public static int KnapsackBU(int[] weight, int[] price, int cap) {
+
+		int nr = weight.length + 1;
+		int nc = cap + 1;
+
+		int[][] strg = new int[nr][nc];
+
+		for (int row = 1; row < nr; row++) {
+
+			for (int col = 1; col < nc; col++) {
+
+				// include
+				int include = 0;
+
+				if (weight[row - 1] <= col) {
+					include = price[row - 1] + strg[row - 1][col - weight[row - 1]];
+				}
+
+				int exclude = strg[row - 1][col];
+
+				strg[row][col] = Math.max(include, exclude);
+
+			}
+
+		}
+
+		return strg[nr - 1][nc - 1];
+	}
+
+	public static int color(int[] arr, int si, int ei) {
+
+		int sum = 0;
+
+		for (int i = si; i <= ei; i++) {
+			sum += arr[i];
+		}
+
+		return sum % 100;
+	}
+
+	public static int Mixtures(int[] arr, int si, int ei) {
+
+		if (si == ei) {
+			return 0;
+		}
+		int min = Integer.MAX_VALUE;
+
+		for (int k = si; k <= ei - 1; k++) {
+
+			int fc = Mixtures(arr, si, k);
+			int sc = Mixtures(arr, k + 1, ei);
+
+			int sw = color(arr, si, k) * color(arr, k + 1, ei);
+
+			int ans = fc + sc + sw;
+
+			if (ans < min) {
+				min = ans;
+			}
+		}
+
+		return min;
 	}
 
 }
