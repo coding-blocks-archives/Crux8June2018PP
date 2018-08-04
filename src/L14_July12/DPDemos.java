@@ -60,8 +60,12 @@ public class DPDemos {
 		// int[weight.length][cap + 1]));
 		// System.out.println(KnapsackBU(weight, price, cap));
 
-		int[] arr = { 40, 60, 20 };
-		System.out.println(Mixtures(arr, 0, arr.length - 1));
+		// int[] arr = { 40, 60, 20 };
+		// System.out.println(Mixtures(arr, 0, arr.length - 1));
+		int[] prices = { 0, 1, 5, 8, 9, 10, 17, 17, 20 };
+		System.out.println(rodCutTD(prices, prices.length - 1, new int[prices.length]));
+		System.out.println(rodCutBU(prices, prices.length - 1));
+
 		long end = System.currentTimeMillis();
 
 		System.out.println("Time : " + (end - start));
@@ -677,4 +681,80 @@ public class DPDemos {
 		return min;
 	}
 
+	public static int rodCutTD(int[] prices, int n, int[] strg) {
+
+		// if (n == 0) {
+		// return 0;
+		// }
+
+		if (strg[n] != 0) {
+			return strg[n];
+		}
+
+		int max = prices[n];
+
+		int left = 1;
+		int right = n - 1;
+
+		while (left <= right) {
+
+			int fp = rodCutTD(prices, left, strg);
+			int sp = rodCutTD(prices, right, strg);
+
+			int ans = fp + sp;
+
+			if (ans > max) {
+				max = ans;
+			}
+
+			left++;
+			right--;
+
+		}
+
+		strg[n] = max;
+		return max;
+
+	}
+
+	public static int rodCutBU(int[] prices, int n) {
+
+		int[] strg = new int[prices.length];
+
+		for (int i = 1; i < strg.length; i++) {
+
+			int max = prices[i];
+
+			int left = 1;
+			int right = i - 1;
+
+			while (left <= right) {
+
+				int fp = strg[left];
+				int sp = strg[right];
+
+				int ans = fp + sp;
+
+				if (ans > max) {
+					max = ans;
+				}
+
+				left++;
+				right--;
+
+			}
+
+			strg[i] = max;
+
+		}
+
+		return strg[n];
+	}
+
+	
+	
+	
+	
+	
+	
 }
