@@ -91,4 +91,20 @@ public class HeapGeneric<T extends Comparable<T>> {
 		return this.size() == 0;
 
 	}
+
+	public void updatePriority(T item) {
+
+		int si = -1;
+
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i) == item) {
+				si = i;
+				break;
+			}
+		}
+
+		upheapify(si);
+
+	}
+
 }

@@ -1,5 +1,7 @@
 package L24_Aug4;
 
+import java.util.Queue;
+
 /**
  * @author Garima Chhikara
  * @email garima.chhikara@codingblocks.com
@@ -10,6 +12,9 @@ public class GraphClient {
 
 	public static void main(String[] args) {
 
+		for (String val : args) {
+			System.out.println(val);
+		}
 		Graph graph = new Graph();
 
 		graph.addVertex("A");
@@ -22,12 +27,12 @@ public class GraphClient {
 
 		graph.addEdge("A", "B", 2);
 		graph.addEdge("A", "D", 3);
-		graph.addEdge("C", "B", 4);
-		graph.addEdge("C", "D", 5);
-		graph.addEdge("D", "E", 6);
+		graph.addEdge("C", "B", 1);
+		graph.addEdge("C", "D", 4);
+		graph.addEdge("D", "E", 5);
 		graph.addEdge("E", "F", 7);
-		graph.addEdge("G", "E", 8);
-		graph.addEdge("F", "G", 9);
+		graph.addEdge("G", "E", 2);
+		graph.addEdge("F", "G", 3);
 
 		graph.display();
 
@@ -36,6 +41,8 @@ public class GraphClient {
 		System.out.println(graph.containsEdge("A", "C"));
 		System.out.println(graph.containsVertex("Y"));
 
+		// graph.removeEdge("B", "C");
+		// graph.removeEdge("F", "G");
 		// graph.removeEdge("D", "E");
 
 		graph.display();
@@ -48,6 +55,17 @@ public class GraphClient {
 		graph.BFT();
 		System.out.println("---");
 		graph.DFT();
+
+		System.out.println("---");
+		System.out.println(graph.isCyclic());
+		System.out.println(graph.isConnected());
+		System.out.println(graph.isTree());
+		System.out.println(graph.getCC());
+
+		System.out.println(graph.isBipartite());
+
+		graph.Prims().display();
+		System.out.println(graph.Dijkstra("A"));
 
 	}
 
