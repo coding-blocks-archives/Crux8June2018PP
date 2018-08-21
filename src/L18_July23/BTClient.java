@@ -34,7 +34,10 @@ public class BTClient {
 		// bt.preorder();
 		// bt.preorderI();
 
-		bt.isBST();
+		// bt.isBST();
+
+		// System.out.println(bt.path(160));
+		bt.printTillK(50, 2);
 
 	}
 

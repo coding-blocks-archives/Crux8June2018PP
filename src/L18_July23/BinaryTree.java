@@ -1,5 +1,6 @@
 package L18_July23;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -415,6 +416,122 @@ public class BinaryTree {
 
 		return sp;
 
+	}
+
+	// path
+	public ArrayList<Integer> path(int target) {
+		return path(this.root, target);
+	}
+
+	private ArrayList<Integer> path(Node node, int target) {
+
+		ArrayList<Integer> mr = new ArrayList<>();
+
+		if (node == null) {
+			return mr;
+		}
+
+		ArrayList<Integer> lal = path(node.left, target);
+		ArrayList<Integer> ral = path(node.right, target);
+
+		if (lal.size() != 0) {
+			lal.add(0, node.data);
+			return lal;
+		}
+
+		if (ral.size() != 0) {
+			ral.add(0, node.data);
+			return ral;
+		}
+
+		if (node.data == target) {
+			mr.add(node.data);
+		}
+
+		return mr;
+	}
+
+	public boolean structurallyIdentical(BinaryTree other) {
+		return structurallyIdentical(this.root, other.root);
+	}
+
+	private boolean structurallyIdentical(Node tnode, Node onode) {
+
+		if (tnode == null && onode != null) {
+			return false;
+		}
+
+		if (tnode != null && onode == null) {
+			return false;
+		}
+
+		if (tnode == null && onode == null) {
+			return true;
+		}
+
+		boolean l = structurallyIdentical(tnode.left, onode.left);
+		boolean r = structurallyIdentical(tnode.right, onode.right);
+
+		return l && r;
+	}
+
+	public void printTillK(int target, int k) {
+		printTillK(root, target, k);
+	}
+
+	private int printTillK(Node node, int target, int k) {
+
+		if (node == null) {
+			return -1;
+		}
+
+		if (node.data == target) {
+			printKDown(node, k, 0);
+			return 0;
+		}
+
+		int ld = printTillK(node.left, target, k);
+
+		if (ld != -1) {
+
+			if (ld + 1 == k) {
+				System.out.println(node.data);
+			} else {
+				printKDown(node.right, k - ld - 2, 0);
+			}
+
+			return ld + 1;
+		}
+
+		int rd = printTillK(node.right, target, k);
+
+		if (rd != -1) {
+
+			if (rd + 1 == k) {
+				System.out.println(node.data);
+			} else {
+				printKDown(node.left, k - rd - 2, 0);
+			}
+
+			return rd + 1;
+		}
+
+		return -1;
+	}
+
+	private void printKDown(Node node, int level, int count) {
+
+		if (node == null) {
+			return;
+		}
+
+		if (level == count) {
+			System.out.println(node.data);
+			return;
+		}
+
+		printKDown(node.left, level, count + 1);
+		printKDown(node.right, level, count + 1);
 	}
 
 }
