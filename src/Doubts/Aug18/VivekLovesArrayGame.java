@@ -53,7 +53,7 @@ public class VivekLovesArrayGame {
 				int a1 = split(arr, lo, mid);
 				int a2 = split(arr, mid + 1, hi);
 
-				ans = Math.max(a1, a2) + 1;
+				return Math.max(a1, a2) + 1;
 			}
 		}
 
